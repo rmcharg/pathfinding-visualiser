@@ -34,7 +34,7 @@ class Node:
     def draw (self, screen):
         pygame.draw.rect(screen, self.colour, (self.column * self.width, 
                          self.row * self.height, self.width - 2, self.height - 2))
-        pygame.display.update()
+       
 
 
     def make_start(self):

@@ -11,8 +11,8 @@ YELLOW = (255, 255, 0)
 PINK = (255, 192, 203)
 
 # Window Config Settings
-WINDOW_HEIGHT = 800
-WINDOW_WIDTH = 800
+WINDOW_HEIGHT = 500
+WINDOW_WIDTH = 500
 ROWS = 25
 COLUMNS = 25
 
@@ -35,6 +35,7 @@ def main ():
     end_node = None
 
     # initialise game loop, track whether program is runnning and if algo is searching
+    clock = pygame.time.Clock()
     running = True
     searching = False
     while running:
@@ -136,6 +137,8 @@ def draw_grid(screen, grid):
     for row in grid:
         for node in row:
             node.draw(screen)
+    
+    pygame.display.flip()
 
 
 
