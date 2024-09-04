@@ -1,5 +1,6 @@
 import pygame
 from .grid import Node
+from .algorithms import Dijkstra
 
 # Pre defined colours
 WHITE = (255, 255, 255)
@@ -25,49 +26,44 @@ def main ():
     Node.height = WINDOW_HEIGHT // ROWS
     Node.width = WINDOW_WIDTH // COLUMNS 
 
-    grid = create_grid()
+    grid = create_grid(ROWS, COLUMNS)
 
     # Variables to track whether start and end node have been assigned
     start_node = None
     end_node = None
 
+    # initialise game loop, track whether program is runnning and if algo is searching
     running = True
+    searching = False
     while running:
         draw_grid(screen, grid)
         for event in pygame.event.get():
+
             if event.type == pygame.QUIT:
                 running = False
             
             # On left click assign start point, end point and walls
             if pygame.mouse.get_pressed() [0]:
+
+                if searching:
+                    continue
+
                 # Get node that mouse has clicked on
-                x, y = pygame.mouse.get_pos()
-                row = y // Node.height
-                col = x // Node.width
-                print(f'Mouse pressed at ({col}, {row})')
+                row, col = get_mouse_pos(Node.height, Node.width)
                 node = grid[row][col]
-                print(node.start, node.end, node.wall)
                 # Assign state to node
                 if not start_node and node != end_node:
-                    print('Assigning Start')
                     node.make_start()
                     start_node = node
                 elif not end_node and node != start_node:
-                    print('Assigning End')
                     node.make_end()
                     end_node = node
                 elif node != start_node and node != end_node:
-                    print('Assigning Wall')
                     node.make_wall()
-                
-                print(node.start, node.end, node.wall)
-
+            
             # On right click reset the spot to default
             elif pygame.mouse.get_pressed()[2]:
-                x, y = pygame.mouse.get_pos()
-                row = y // Node.height
-                col = x // Node.width
-                print(f'Mouse pressed at ({col}, {row})')
+                row, col = get_mouse_pos(Node.height, Node.width)
                 node = grid[row][col]
 
                 if node == start_node:
@@ -75,21 +71,69 @@ def main ():
                 if node == end_node:
                     end_node = None
                 node.reset()
-                
+
+            # when key is pressed run algorithm
+            if event.type == pygame.KEYDOWN:
+                if (event.key == pygame.K_RETURN and not searching 
+                    and start_node and end_node):
+
+                    for row in grid:
+                        for node in row:
+                            node.set_neighbours(grid)
+                    
+                    Dijkstra(start_node, end_node, grid)
+
     pygame.quit()
 
 
-def create_grid():
+def get_mouse_pos(node_height, node_width):
+    """
+    Get the grid position of the mouse click
+
+    Args:
+        node_height: the height of node on grid
+        node_width: the width of node on grid
+    
+    Returns:
+        row, col: index position of node in the grid
+    """
+    x, y = pygame.mouse.get_pos()
+    row = y // node_height
+    col = x // node_width
+
+    return row, col
+
+
+def create_grid(rows, columns):
+    """
+    Create grid of nodes with specified rows and columns
+    
+    Args:
+        rows: number of rows in the grid
+        columns: number of columns in the grid
+    
+    Returns:
+        grid: 2d array of node objects
+    """
     grid = []
-    for i in range(ROWS):
-        grid.append([Node(i, j) for j in range(ROWS)])
+    for i in range(rows):
+        grid.append([Node(i, j) for j in range(columns)])
 
     return grid
 
+
 def draw_grid(screen, grid):
-    for i in range(ROWS):
-        for j in range(COLUMNS):
-            grid[i][j].draw(screen)
+    """
+    Draw grid of nodes.
+    
+    Args:
+        screen: pygame window to draw the grid
+        grid: 2d array of nodes to draw
+    """
+   
+    for row in grid:
+        for node in row:
+            node.draw(screen)
 
 
 
