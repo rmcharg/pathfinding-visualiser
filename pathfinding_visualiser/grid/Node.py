@@ -21,6 +21,10 @@ class Node:
         self.visited = False
         self.neighbours = []
     
+    
+    def index(self):
+        return (self.column, self.row)
+    
 
     def draw (self, screen):
         pygame.draw.rect(screen, self.colour, (self.column * self.width, 
