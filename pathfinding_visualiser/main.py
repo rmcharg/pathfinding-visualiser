@@ -1,12 +1,14 @@
 import pygame
 from .grid import Node
-from .algorithms import Dijkstra
+from .algorithms import BFS
 
 # Pre defined colours
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
+YELLOW = (255, 255, 0)
+PINK = (255, 192, 203)
 
 # Window Config Settings
 WINDOW_HEIGHT = 800
@@ -81,7 +83,7 @@ def main ():
                         for node in row:
                             node.set_neighbours(grid)
                     
-                    Dijkstra(start_node, end_node, grid)
+                    BFS(start_node, end_node, grid, lambda: draw_grid(screen, grid))
 
     pygame.quit()
 

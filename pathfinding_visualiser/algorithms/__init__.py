@@ -1,1 +1,1 @@
-from .Dijkstra import Dijkstra
+from .BFS import BFS

@@ -4,6 +4,10 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
+BLUE = (0, 0, 255)
+YELLOW = (255, 255, 0)
+PINK = (255, 192, 203)
+TURQOISE = (64, 224, 208)
 
 
 class Node:
@@ -20,6 +24,7 @@ class Node:
         self.queued = False
         self.visited = False
         self.neighbours = []
+        self.parent_node = None
     
     
     def index(self):
@@ -44,6 +49,17 @@ class Node:
 
     def make_end(self):
         self.end = True
+        self.colour = TURQOISE
+
+    def make_queued(self):
+        self.queued = True
+        self.colour = YELLOW
+    
+    def make_visited(self):
+        self.visited = True
+        self.colour = BLUE
+    
+    def make_path(self):
         self.colour = RED
     
 
