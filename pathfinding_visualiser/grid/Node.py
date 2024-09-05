@@ -88,19 +88,19 @@ class Node:
         Args:
             grid: 2d list of nodes
         """
-        max_rows = len(grid)
-        max_columns = len(grid[0])
+        max_rows = grid.rows
+        max_columns = grid.columns
 
         # check which neighbours we can add
-        if self.row < max_rows - 1 and grid[self.row + 1][self.column].wall is False:
-            self.neighbours.append(grid[self.row + 1][self.column])
+        if self.row < max_rows - 1 and grid.get_node(self.row + 1, self.column).wall is False:
+            self.neighbours.append(grid.get_node(self.row + 1, self.column))
 
-        if self.row > 0 and grid[self.row - 1][self.column].wall is False:
-            self.neighbours.append(grid[self.row - 1][self.column])
+        if self.row > 0 and grid.get_node(self.row - 1, self.column).wall is False:
+            self.neighbours.append(grid.get_node(self.row - 1, self.column))
 
-        if self.column < max_columns - 1 and grid[self.row][self.column + 1].wall is False:
-            self.neighbours.append(grid[self.row][self.column + 1])
+        if self.column < max_columns - 1 and grid.get_node(self.row, self.column + 1).wall is False:
+            self.neighbours.append(grid.get_node(self.row, self.column + 1))
 
-        if self.column > 0 and grid[self.row][self.column - 1].wall is False:
-            self.neighbours.append(grid[self.row ][self.column - 1])
+        if self.column > 0 and grid.get_node(self.row, self.column - 1).wall is False:
+            self.neighbours.append(grid.get_node(self.row, self.column - 1))
 

@@ -1,5 +1,5 @@
 import pygame
-from .grid import Node, create_grid, draw_grid
+from .grid import Node, Grid
 from .utils import get_mouse_pos
 from .algorithms import BFS
 
@@ -12,10 +12,10 @@ YELLOW = (255, 255, 0)
 PINK = (255, 192, 203)
 
 # Window Config Settings
-WINDOW_HEIGHT = 500
-WINDOW_WIDTH = 500
-ROWS = 25
-COLUMNS = 25
+WINDOW_HEIGHT = 800
+WINDOW_WIDTH = 800
+ROWS = 40
+COLUMNS = 40
 
 
 def main ():
@@ -27,66 +27,67 @@ def main ():
     Node.height = WINDOW_HEIGHT // ROWS
     Node.width = WINDOW_WIDTH // COLUMNS 
 
-    grid = create_grid(ROWS, COLUMNS)
+    grid = Grid(ROWS, COLUMNS)
+    grid.create_grid()
 
     # Game loop
-    start_node = None
-    end_node = None
     running = True
-    searching = False
     while running:
-        draw_grid(screen, grid)
+        grid.draw_grid(screen)
         for event in pygame.event.get():
 
             if event.type == pygame.QUIT:
                 running = False
             
-            if searching:
+            if grid.searching:
                 continue
             
             # On left click assign start point, end point and walls
             if pygame.mouse.get_pressed() [0]:
                 # Get node that mouse has clicked on
                 row, col = get_mouse_pos(Node.height, Node.width)
-                node = grid[row][col]
+                try:
+                    node = grid.get_node(row, col)
+                except:
+                    pass
                 # Assign state to node
-                if not start_node and node != end_node:
+                if not grid.start_node and node != grid.end_node:
                     node.make_start()
-                    start_node = node
-                elif not end_node and node != start_node:
+                    grid.start_node = node
+                elif not grid.end_node and node != grid.start_node:
                     node.make_end()
-                    end_node = node
-                elif node != start_node and node != end_node:
+                    grid.end_node = node
+                elif node != grid.start_node and node != grid.end_node:
                     node.make_wall()
             
             # On right click reset the spot to default
             elif pygame.mouse.get_pressed()[2]:
                 row, col = get_mouse_pos(Node.height, Node.width)
-                node = grid[row][col]
+                node = grid.get_node(row, col)
 
-                if node == start_node:
-                    start_node = None
-                if node == end_node:
-                    end_node = None
+                if node == grid.start_node:
+                    grid.start_node = None
+                if node == grid.end_node:
+                    grid.end_node = None
                 node.reset()
 
             
             elif event.type == pygame.KEYDOWN:
                 # Clear board
-                if (event.key == pygame.K_c) and not searching:
-                    start_node = None
-                    end_node = None
-                    grid = create_grid(ROWS, COLUMNS)
+                if (event.key == pygame.K_c) and not grid.searching:
+                    grid = Grid(ROWS, COLUMNS)
+                    grid.create_grid()
+
                 
                 # Start search
-                elif (event.key == pygame.K_RETURN and not searching 
-                    and start_node and end_node):
-                    for row in grid:
+                elif (event.key == pygame.K_RETURN and not grid.searching 
+                    and grid.start_node and grid.end_node):
+                    for row in grid.nodes:
                         for node in row:
                             node.set_neighbours(grid)
-                    searching = True
-                    BFS(start_node, end_node, grid, lambda: draw_grid(screen, grid))
-                    searching = False
+                    grid.searching = True
+                    BFS(grid, screen)
+                    grid.searching = False
           
 
     pygame.quit()
