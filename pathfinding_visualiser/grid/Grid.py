@@ -36,8 +36,16 @@ class Grid:
 
         pygame.display.flip()
 
-    def reset_grid():
-        pass
+    def reset_grid(self):
+        """
+        Function to reset the grid to state before algorithm was run this 
+        will allow algorithm to be run on the same grid wall format
+        """
+        for row in self.nodes:
+            for node in row:
+                if (node is not self.start_node and node is not self.end_node
+                    and not node.wall):
+                    node.reset()
 
     def clear_grid():
         pass
@@ -48,42 +56,3 @@ class Grid:
         while node != grid.start_node:
             node.make_path()
             node = node.parent_node
-
-
-        
-
-
-                                                                               
-
-def create_grid(rows, columns):
-    """
-    Create grid of nodes with specified rows and columns
-    
-    Args:
-        rows: number of rows in the grid
-        columns: number of columns in the grid
-    
-    Returns:
-        grid: 2d array of node objects
-    """
-    grid = []
-    for i in range(rows):
-        grid.append([Node(i, j) for j in range(columns)])
-
-    return grid
-
-
-def draw_grid(screen, grid):
-    """
-    Draw grid of nodes.
-    
-    Args:
-        screen: pygame window to draw the grid
-        grid: 2d array of nodes to draw
-    """
-   
-    for row in grid:
-        for node in row:
-            node.draw(screen)
-    
-    pygame.display.flip()
