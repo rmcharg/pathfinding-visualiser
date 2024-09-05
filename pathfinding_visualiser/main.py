@@ -73,12 +73,13 @@ def main ():
 
             
             elif event.type == pygame.KEYDOWN:
-                # Clear board
-                if (event.key == pygame.K_c) and not grid.searching:
+                # Clear Grid
+                if event.key == pygame.K_c and not grid.searching:
                     grid = Grid(ROWS, COLUMNS)
                     grid.create_grid()
-
-                
+                # Reset Grid
+                elif event.key == pygame.K_r and not grid.searching:
+                    grid.reset_grid()
                 # Start search
                 elif (event.key == pygame.K_RETURN and not grid.searching 
                     and grid.start_node and grid.end_node):

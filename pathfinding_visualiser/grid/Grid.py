@@ -41,6 +41,10 @@ class Grid:
         Function to reset the grid to state before algorithm was run this 
         will allow algorithm to be run on the same grid wall format
         """
+        self.start_node.queued = False
+        self.start_node.visited = False
+        self.end_node.visited = False
+        self.end_node.queued = False
         for row in self.nodes:
             for node in row:
                 if (node is not self.start_node and node is not self.end_node
