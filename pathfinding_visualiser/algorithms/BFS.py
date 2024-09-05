@@ -1,4 +1,5 @@
 
+import pygame
 
 def BFS(start_node, end_node, grid, draw_func):
     """
@@ -16,12 +17,14 @@ def BFS(start_node, end_node, grid, draw_func):
     Returns:
         True or False to indicate if the spot was succesfully found
     """
+    clock = pygame.time.Clock()
     # initialise queue with start node
     queue = []
     queue.append(start_node)
     start_node.queued = True
 
     while queue:
+        clock.tick(20)
         current_node = queue.pop(0)
         if current_node != start_node:
             current_node.make_visited()

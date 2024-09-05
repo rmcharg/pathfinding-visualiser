@@ -1,5 +1,6 @@
 import pygame
-from .grid import Node
+from .grid import Node, create_grid, draw_grid
+from .utils import get_mouse_pos
 from .algorithms import BFS
 
 # Pre defined colours
@@ -18,24 +19,19 @@ COLUMNS = 25
 
 
 def main ():
-    pygame.init()
     # Create pygame window
-
+    pygame.init()
     screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_WIDTH))
     screen.fill(BLACK)
 
-    # Set Node dimensions
     Node.height = WINDOW_HEIGHT // ROWS
     Node.width = WINDOW_WIDTH // COLUMNS 
 
     grid = create_grid(ROWS, COLUMNS)
 
-    # Variables to track whether start and end node have been assigned
+    # Game loop
     start_node = None
     end_node = None
-
-    # initialise game loop, track whether program is runnning and if algo is searching
-    clock = pygame.time.Clock()
     running = True
     searching = False
     while running:
@@ -45,12 +41,11 @@ def main ():
             if event.type == pygame.QUIT:
                 running = False
             
+            if searching:
+                continue
+            
             # On left click assign start point, end point and walls
             if pygame.mouse.get_pressed() [0]:
-
-                if searching:
-                    continue
-
                 # Get node that mouse has clicked on
                 row, col = get_mouse_pos(Node.height, Node.width)
                 node = grid[row][col]
@@ -75,70 +70,32 @@ def main ():
                     end_node = None
                 node.reset()
 
-            # when key is pressed run algorithm
-            if event.type == pygame.KEYDOWN:
-                if (event.key == pygame.K_RETURN and not searching 
+            
+            elif event.type == pygame.KEYDOWN:
+                # Clear board
+                if (event.key == pygame.K_c) and not searching:
+                    start_node = None
+                    end_node = None
+                    grid = create_grid(ROWS, COLUMNS)
+                
+                # Start search
+                elif (event.key == pygame.K_RETURN and not searching 
                     and start_node and end_node):
-
                     for row in grid:
                         for node in row:
                             node.set_neighbours(grid)
-                    
+                    searching = True
                     BFS(start_node, end_node, grid, lambda: draw_grid(screen, grid))
+                    searching = False
+          
 
     pygame.quit()
 
 
-def get_mouse_pos(node_height, node_width):
-    """
-    Get the grid position of the mouse click
-
-    Args:
-        node_height: the height of node on grid
-        node_width: the width of node on grid
-    
-    Returns:
-        row, col: index position of node in the grid
-    """
-    x, y = pygame.mouse.get_pos()
-    row = y // node_height
-    col = x // node_width
-
-    return row, col
 
 
-def create_grid(rows, columns):
-    """
-    Create grid of nodes with specified rows and columns
-    
-    Args:
-        rows: number of rows in the grid
-        columns: number of columns in the grid
-    
-    Returns:
-        grid: 2d array of node objects
-    """
-    grid = []
-    for i in range(rows):
-        grid.append([Node(i, j) for j in range(columns)])
-
-    return grid
 
 
-def draw_grid(screen, grid):
-    """
-    Draw grid of nodes.
-    
-    Args:
-        screen: pygame window to draw the grid
-        grid: 2d array of nodes to draw
-    """
-   
-    for row in grid:
-        for node in row:
-            node.draw(screen)
-    
-    pygame.display.flip()
 
 
 
