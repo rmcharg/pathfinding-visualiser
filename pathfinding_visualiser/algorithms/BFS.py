@@ -1,6 +1,7 @@
 
+import pygame
 
-def BFS(start_node, end_node, grid, draw_func):
+def BFS(grid, screen):
     """
     Implementation of Breadth First Search Algorithm.
     
@@ -16,19 +17,23 @@ def BFS(start_node, end_node, grid, draw_func):
     Returns:
         True or False to indicate if the spot was succesfully found
     """
+    clock = pygame.time.Clock()
     # initialise queue with start node
     queue = []
-    queue.append(start_node)
-    start_node.queued = True
+    queue.append(grid.start_node)
+    grid.start_node.queued = True
 
     while queue:
+        clock.tick(20)
         current_node = queue.pop(0)
-        if current_node != start_node:
+        if current_node != grid.start_node:
             current_node.make_visited()
+        else:
+            grid.start_node.visited = True
 
-        if current_node == end_node:
+        if current_node == grid.end_node:
             current_node.make_end()
-            reconstruct_path(start_node, end_node, grid)
+            grid.reconstruct_path(screen)
             return True
         else:
             for neighbour_node in current_node.neighbours:
@@ -37,13 +42,13 @@ def BFS(start_node, end_node, grid, draw_func):
                     neighbour_node.make_queued()
                     neighbour_node.parent_node = current_node
 
-        draw_func()
+        grid.draw_grid(screen)
 
     return False
 
-def reconstruct_path(start_node, end_node, grid):
-    node = end_node.parent_node
+def reconstruct_path(grid):
+    node = grid.end_node.parent_node
 
-    while node != start_node:
+    while node != grid.start_node:
         node.make_path()
         node = node.parent_node
