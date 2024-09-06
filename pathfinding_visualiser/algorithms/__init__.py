@@ -1,2 +1,2 @@
 from .BFS import BFS
-from .DFS import DFS
+from .DFS import DFS, DFS_recursive
