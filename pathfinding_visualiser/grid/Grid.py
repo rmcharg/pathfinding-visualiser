@@ -1,4 +1,5 @@
 import pygame
+import random
 from .Node import Node
 
 
@@ -18,9 +19,14 @@ class Grid:
             If maze argument is passed it generates a grid with random
             walls placed.
         """
-        if maze == False:
-            for i in range(self.rows):
+        for i in range(self.rows):
                 self.nodes.append([Node(i, j) for j in range(self.columns)])
+        if maze == True:
+            for row in self.nodes:
+                for node in row:
+                    if random.uniform(0, 1) < 0.25:
+                        node.make_wall()
+                    
 
     def get_node(self, row, column):
         return self.nodes[row][column]

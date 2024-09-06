@@ -28,7 +28,7 @@ def visualiser(algorithm=1, generate_maze=0):
     Node.width = WINDOW_WIDTH // COLUMNS 
 
     grid = Grid(ROWS, COLUMNS)
-    grid.create_grid()
+    grid.create_grid(bool(generate_maze))
 
     # Game loop
     running = True
