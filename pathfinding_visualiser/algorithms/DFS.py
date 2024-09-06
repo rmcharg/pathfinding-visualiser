@@ -2,17 +2,13 @@ import pygame
 
 def DFS(grid, screen):
 
-    visited = []
     clock = pygame.time.Clock()
     stack = []
     stack.append(grid.start_node)
 
     while stack:
-        clock.tick(20)
+        clock.tick(15)
         current_node = stack.pop()
-        visited.append(current_node.index())
-        if current_node.visited is True:
-            current_node.colour = (210, 175, 255)
 
         if current_node is not grid.start_node:
             current_node.make_visited()
@@ -21,7 +17,7 @@ def DFS(grid, screen):
         
 
         if current_node is grid.end_node:
-            print(visited)
+            current_node.make_end()
             grid.reconstruct_path()
             return True
         
