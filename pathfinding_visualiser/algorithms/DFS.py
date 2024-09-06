@@ -18,7 +18,7 @@ def DFS(grid, screen):
 
         if current_node is grid.end_node:
             current_node.make_end()
-            grid.reconstruct_path()
+            grid.reconstruct_path(screen)
             return True
         
         for neighbour_node in current_node.neighbours:

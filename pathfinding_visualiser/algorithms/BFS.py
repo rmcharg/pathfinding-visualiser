@@ -33,7 +33,7 @@ def BFS(grid, screen):
 
         if current_node == grid.end_node:
             current_node.make_end()
-            grid.reconstruct_path()
+            grid.reconstruct_path(screen)
             return True
         else:
             for neighbour_node in current_node.neighbours:

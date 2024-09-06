@@ -60,9 +60,12 @@ class Grid:
     def clear_grid():
         pass
 
-    def reconstruct_path(grid):
+    def reconstruct_path(grid, screen):
         node = grid.end_node.parent_node
 
+        clock = pygame.time.Clock()
         while node != grid.start_node:
+            clock.tick(15)
             node.make_path()
             node = node.parent_node
+            grid.draw_grid(screen)
