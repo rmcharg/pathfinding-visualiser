@@ -1,7 +1,7 @@
 import pygame
 from .grid import Node, Grid
 from .utils import get_mouse_pos
-from .algorithms import BFS
+from .algorithms import BFS, DFS
 
 # Pre defined colours
 WHITE = (255, 255, 255)
@@ -18,7 +18,7 @@ ROWS = 40
 COLUMNS = 40
 
 
-def main ():
+def visualiser(algorithm=1, generate_maze=0):
     # Create pygame window
     pygame.init()
     screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_WIDTH))
@@ -87,7 +87,11 @@ def main ():
                         for node in row:
                             node.set_neighbours(grid)
                     grid.searching = True
-                    BFS(grid, screen)
+                    if algorithm == 1:
+                        BFS(grid, screen)
+                    elif algorithm == 2:
+                        print('Starting DFS Algorithm')
+                        DFS(grid,screen)
                     grid.searching = False
           
 

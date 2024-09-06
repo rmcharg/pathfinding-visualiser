@@ -1,4 +1,4 @@
-from pathfinding_visualiser.main import main
+from pathfinding_visualiser.main import visualiser
 
 import tkinter as tk
 from tkinter.ttk import Style
@@ -36,11 +36,9 @@ if __name__ == "__main__":
     btn = tk.Button(root, text="Run", width=20, height = 1, 
                     background="#17181c", foreground="white",
                     font = ("Arial",15,"bold"),
-                    command=main)
+                    command= lambda: visualiser(radio_var.get(), check_var.get()))
     btn.pack()
 
     root.mainloop()
 
-    condition = False
-    if condition:
-        main()
+

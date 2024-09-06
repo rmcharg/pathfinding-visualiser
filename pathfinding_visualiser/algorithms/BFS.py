@@ -28,6 +28,8 @@ def BFS(grid, screen):
         current_node = queue.pop(0)
         if current_node != grid.start_node:
             current_node.make_visited()
+        else:
+            grid.start_node.visited = True
 
         if current_node == grid.end_node:
             current_node.make_end()
