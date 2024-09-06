@@ -18,7 +18,7 @@ ROWS = 40
 COLUMNS = 40
 
 
-def visualiser(algorithm=1, generate_maze=0):
+def visualiser(algorithm=1, generate_maze=False):
     # Create pygame window
     pygame.init()
     screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_WIDTH))
@@ -28,7 +28,7 @@ def visualiser(algorithm=1, generate_maze=0):
     Node.width = WINDOW_WIDTH // COLUMNS 
 
     grid = Grid(ROWS, COLUMNS)
-    grid.create_grid(bool(generate_maze))
+    grid.create_grid(generate_maze)
 
     # Game loop
     running = True

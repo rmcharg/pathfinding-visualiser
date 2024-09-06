@@ -33,10 +33,10 @@ if __name__ == "__main__":
                    offvalue=0, selectcolor="#17181c", bg="#17181c", fg="white", 
                     pady=5, font = ("Arial",10,"bold")).pack()
 
-    btn = tk.Button(root, text="Run", width=20, height = 1, 
+    btn = tk.Button(root, text="Run Visualiser", width=20, height = 1, 
                     background="#17181c", foreground="white",
                     font = ("Arial",15,"bold"),
-                    command= lambda: visualiser(radio_var.get(), check_var.get()))
+                    command= lambda: visualiser(radio_var.get(), bool(check_var.get())))
     btn.pack()
 
     root.mainloop()
