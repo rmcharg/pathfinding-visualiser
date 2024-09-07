@@ -1,7 +1,7 @@
 import pygame
 from tkinter import messagebox
 from .grid import Node, Grid
-from .utils import get_mouse_pos, display_failure_message
+from .utils import get_mouse_pos
 from .algorithms import BFS, DFS, DFS_recursive
 
 # Pre defined colours
