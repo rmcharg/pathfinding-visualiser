@@ -8,8 +8,16 @@ Graph search algorithm visualiser built in Python using the Pygame and Tkinter l
 ### Breadth First Search
 Breadth first search (BFS) is an algorithm for searching a tree or graph data structure for a target node. The algorithm starts at a particular  node (or the root node for a tree) and visits all of the adjacent nodes before exploring nodes at the next level out. In an unweighted graph this algorithm guarantees to find the shortest path.
 
+
+https://github.com/user-attachments/assets/8f30f5f5-8bf2-4abb-b54f-25720fcfc23c
+
+
 ### Depth First Search
 Depth first search (DFS) is an algorithm for searching a tree or graph data structure. The algorithm starts at a particular node (root node for a tree) and explores as far as possible along each branch before backtracking. This algorithm will find a path if it exists it does not guarantee the shortest path.
+
+
+
+https://github.com/user-attachments/assets/d8971526-f90e-4f56-85c2-831b5ae06e23
 
 
 
