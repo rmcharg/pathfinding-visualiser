@@ -26,18 +26,18 @@ def BFS(grid, screen):
     while queue:
         clock.tick(20)
         current_node = queue.pop(0)
-        if current_node != grid.start_node:
+        if current_node is not grid.start_node:
             current_node.make_visited()
         else:
             grid.start_node.visited = True
 
-        if current_node == grid.end_node:
+        if current_node is grid.end_node:
             current_node.make_end()
             grid.reconstruct_path(screen)
             return True
         else:
             for neighbour_node in current_node.neighbours:
-                if neighbour_node.queued == False and neighbour_node.visited == False:
+                if neighbour_node.queued is False and neighbour_node.visited is False:
                     queue.append(neighbour_node)
                     neighbour_node.make_queued()
                     neighbour_node.parent_node = current_node
@@ -49,6 +49,6 @@ def BFS(grid, screen):
 def reconstruct_path(grid):
     node = grid.end_node.parent_node
 
-    while node != grid.start_node:
+    while node is not grid.start_node:
         node.make_path()
         node = node.parent_node

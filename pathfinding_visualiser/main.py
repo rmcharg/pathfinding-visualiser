@@ -1,7 +1,8 @@
 import pygame
+from tkinter import messagebox
 from .grid import Node, Grid
 from .utils import get_mouse_pos
-from .algorithms import BFS, DFS
+from .algorithms import BFS, DFS, DFS_recursive
 
 # Pre defined colours
 WHITE = (255, 255, 255)
@@ -38,6 +39,7 @@ def visualiser(algorithm=1, generate_maze=False):
 
             if event.type == pygame.QUIT:
                 running = False
+                break
             
             if grid.searching:
                 continue
@@ -88,11 +90,17 @@ def visualiser(algorithm=1, generate_maze=False):
                             node.set_neighbours(grid)
                     grid.searching = True
                     if algorithm == 1:
-                        BFS(grid, screen)
+                        print("Starting BFS Algorithm")
+                        found = BFS(grid, screen)
+                        if found is False:
+                            print("Target node not found!")
                     elif algorithm == 2:
-                        print('Starting DFS Algorithm')
-                        DFS(grid,screen)
+                        print("Starting DFS Algorithm")
+                        found = DFS_recursive(grid.start_node, grid, screen)
+                        if found is False:
+                            print("Target node not found!")
                     grid.searching = False
+
           
 
     pygame.quit()
