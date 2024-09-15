@@ -5,7 +5,34 @@ from .Node import Node
 
 
 class Grid:
+    """
+    Class for graph implementation of grid of points
+    
+    Attributes:
+        nodes: list
+            2d list of nodes, each node labelled by row and column index
+        rows: int
+            number of rows in grid
+        columns: int
+            number of columns in grid
+        start_node: Node
+            node to start to search from
+        end_node: Node
+            target node in the search
+        searching: bool
+            indicate whether the graph is currently being searched for pygame loop
+        target_found:
+            indicate whether the end node was found
+    
+    """
     def __init__(self, rows, columns):
+        """
+        Args:
+            rows: int
+                number of rows in grid
+            columns: int
+                number of columns in grid
+        """
         self.nodes = []
         self.rows = rows
         self.columns = columns
@@ -15,12 +42,20 @@ class Grid:
         self.target_found = False
 
     def create_grid(self, maze=False):
-        """Create grid of nodes with the number of rows and cols.
-            If maze argument is passed it generates a grid with random
-            walls placed.
+        """
+        Create grid of nodes.
+
+        This function initialises the grid of nodes, if the maze flag is true
+        the grid is created with a random wall pattern.
+
+        Args:
+            maze: boolean
+                flag to indicate whether a random maze should be generated
+
         """
         for i in range(self.rows):
                 self.nodes.append([Node(i, j) for j in range(self.columns)])
+
         if maze == True:
             for row in self.nodes:
                 for node in row:
@@ -29,10 +64,24 @@ class Grid:
                     
 
     def get_node(self, row, column):
+        """
+        Returns node at given row and column in grid
+
+        Args:
+            row: int
+                row position of node in grid
+            column: int 
+                column position of node in grid
+            
+        Returns:
+            node at (row, column) position in grid
+        """
         return self.nodes[row][column]
 
     def draw_grid(self, screen):
-        """Draw grid of nodes
+        """
+        Draw grid of nodes
+
         Args:
             screen: pygame window object
         """
@@ -44,8 +93,7 @@ class Grid:
 
     def reset_grid(self):
         """
-        Function to reset the grid to state before algorithm was run this 
-        will allow algorithm to be run on the same grid wall format
+        Function to reset the grid to state before search was performed.
         """
         self.start_node.queued = False
         self.start_node.visited = False
@@ -60,12 +108,19 @@ class Grid:
     def clear_grid():
         pass
 
-    def reconstruct_path(grid, screen):
-        node = grid.end_node.parent_node
+    def reconstruct_path(self, screen):
+        """
+        Draw path found by search algorithm on grid
+        
+        Args:
+            screen: pygame window object
+        
+        """
+        node = self.end_node.parent_node
 
         clock = pygame.time.Clock()
-        while node != grid.start_node:
+        while node != self.start_node:
             clock.tick(15)
             node.make_path()
             node = node.parent_node
-            grid.draw_grid(screen)
+            self.draw_grid(screen)
