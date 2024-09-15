@@ -4,26 +4,22 @@ from .grid import Node, Grid
 from .utils import get_mouse_pos
 from .algorithms import BFS, DFS, DFS_recursive
 
-# Pre defined colours
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-RED = (255, 0, 0)
-GREEN = (0, 255, 0)
-YELLOW = (255, 255, 0)
-PINK = (255, 192, 203)
 
-# Window Config Settings
-WINDOW_HEIGHT = 800
-WINDOW_WIDTH = 800
-ROWS = 40
-COLUMNS = 40
+
+
 
 
 def visualiser(algorithm=1, generate_maze=False):
+    # Window Config Settings
+    WINDOW_HEIGHT = 800
+    WINDOW_WIDTH = 800
+    ROWS = 40
+    COLUMNS = 40
+
     # Create pygame window
     pygame.init()
     screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_WIDTH))
-    screen.fill(BLACK)
+    screen.fill((0, 0, 0))
 
     Node.height = WINDOW_HEIGHT // ROWS
     Node.width = WINDOW_WIDTH // COLUMNS 
@@ -100,8 +96,6 @@ def visualiser(algorithm=1, generate_maze=False):
                         if found is False:
                             print("Target node not found!")
                     grid.searching = False
-
-          
 
     pygame.quit()
 
